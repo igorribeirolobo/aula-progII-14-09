@@ -1,11 +1,13 @@
 package br.estacio.progII;
 import javax.swing.*;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 public class layout extends JFrame {
 	private JPanel pnlTopo;
@@ -19,20 +21,80 @@ public class layout extends JFrame {
 	private JButton btnMultiplicar;
 	private JButton btnResultado;
 	private JButton btnPonto;
-	
+	funcao calculo = new funcao();
 	public void Janela()
 	{
 		configurarLayout();
 		instanciarComponentes();
+		definirEventos();
 		montarLayout();
 	}
+	private void definirEventos() {
+
+		for(int i = 0; i < 10; i++)
+		{ int j = i;
+		btnValor[i].addActionListener(new ActionListener() {
+			
+        
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+				String valor = visor.getText();
+				pnlTopo.removeAll();
+				visor = new JTextField(valor + Integer.toString(j),25);
+				 pnlTopo.add(visor);  
+				}
+				finally {
+					pnlTopo.revalidate();
+				}
+			}
+		});
+		}
+		
+		 btnSoma.addActionListener(new ActionListener() {
+			 
+		      @Override
+		      public void actionPerformed(ActionEvent e) {        
+		        
+		        try {     
+                  calculo.funcaoSomar(Integer.parseInt(visor.getText()));
+                  
+		          pnlTopo.removeAll();
+		          visor = new JTextField("",25);
+		          pnlTopo.add(visor);        
+		        }
+		        finally {
+		          
+		          pnlTopo.revalidate();
+		        }        
+		      }
+		    });
+		 btnResultado.addActionListener(new ActionListener() {
+			
+			 @Override
+			 public void actionPerformed(ActionEvent e)
+			 {
+				 try {
+					 pnlTopo.removeAll();
+					 visor = new JTextField(Integer.toString(calculo.getResultado()),25);
+					 pnlTopo.add(visor);
+				 }
+				 finally {
+					 pnlTopo.revalidate();
+				 }
+			 }
+		 });
+		  }	
+		
+		
+	
 	private void instanciarComponentes()
 	{
 		    pnlTopo  = new JPanel(new FlowLayout());
 		    pnlTopo.setBackground(Color.GRAY);
 		    pnlCenter = new JPanel(new FlowLayout());
 		    pnlCenter.setBackground(Color.WHITE);
-		    visor = new JTextField("0",25);
+		    visor = new JTextField("",25);
 		    for(int i = 0; i < btnValor.length;i++)
 		    {
 		    	btnValor[i] = new JButton(Integer.toString(i));
